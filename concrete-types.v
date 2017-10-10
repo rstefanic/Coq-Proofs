@@ -1,7 +1,10 @@
+Module Boolean.
+
 Inductive bool := 
   | true
   | false.
 
+(*** Bool Functions ***)
 Definition negate : bool -> bool :=
   fun (b:bool) =>
   match b with
@@ -9,7 +12,146 @@ Definition negate : bool -> bool :=
    | false => true
 end.
 
-Compute negate true.
+Definition and (b b' : bool) : bool :=
+  match b with
+  | true => b'
+  | false => false
+end.
+
+Definition or (b b' : bool) : bool :=
+  match b with
+  | false => b'
+  | true => true
+end.
+
+Definition nand (b b' : bool) : bool :=
+  match b with
+  | false => true
+  | true => match b' with
+            | false => true
+            | true => false
+            end
+end.
+
+Definition nor (b b' : bool) : bool :=
+  match b with
+  | true => false
+  | false => match b' with
+             | true => false
+             | false => true
+             end
+end.
+
+(*** Bool Notation ***)
+Notation "x && y" := (and x y).
+Notation "x || y" := (or x y).
+
+
+(*** Bool Proofs ***)
+
+(* && Proofs *)
+Example test_and_tt : true && true = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_and_tf : true && false = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_and_ft : false && true = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_and_ff : false && false = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+(* || Proofs *)
+Example test_or_tt : true || true = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_or_tf : true || false = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_or_ft : false || true = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_or_ff : false || false = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+
+(* NAND Proofs *)
+Example test_nand_tt : (nand true true) = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_nand_tf : (nand true false) = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_nand_ft : (nand false true) = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_nand_ff : (nand false false) = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+(* NOR Proofs *)
+Example test_nor_tt : (nor true true) = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_nor_tf : (nor true false) = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_nor_ft : (nor false true) = false.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Example test_nor_ff : (nor false false) = true.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+End Boolean.
+
 
 Inductive byte := 
   Byte(b7 b6 b5 b4 b3 b2 b1 b0 : bool).
